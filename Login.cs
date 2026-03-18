@@ -22,5 +22,10 @@ namespace projekat_2026_Andjela_Simic
             //Andjela Simic
             //drugi red
         }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
