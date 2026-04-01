@@ -9,12 +9,11 @@ namespace projekat_2026_Andjela_Simic
 {
     internal class konekcija
     {
-        static public SqlConnection povezi()
+        static public SqlConnection povezi(string  gde)
         {
             string CS;
-            CS = ConfigurationManager.ConnectionStrings["pocetna"].ConnectionString;
-            SqlConnection veza = new SqlConnection(CS);
-            return veza;
+            CS = ConfigurationManager.ConnectionStrings[gde].ConnectionString;
+            return new SqlConnection(CS);
         }
     }
 }

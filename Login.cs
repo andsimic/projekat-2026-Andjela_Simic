@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace projekat_2026_Andjela_Simic
 {
@@ -22,40 +24,57 @@ namespace projekat_2026_Andjela_Simic
         {
             //Andjela Simic
             //drugi red
+            comboBox1.SelectedIndex = 0;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "" || textBox2.Text=="")
+            if (textBox1.Text == "" || textBox2.Text == "")
             {
-                MessageBox.Show("Niste uneli sve podatke");
+                MessageBox.Show("Morate uneti email i lozinku!");
             }
             else
             {
-                SqlConnection veza = konekcija.povezi();
-                SqlCommand naredba = new SqlCommand("SELECT * FROM Korisnik WHERE email = '" + textBox1.Text + "'", veza);
-                SqlDataAdapter adapt = new SqlDataAdapter(naredba);
+                string lokacija = comboBox1.SelectedItem.ToString();
+                SqlConnection veza = konekcija.povezi(lokacija);
                 DataTable podaci = new DataTable();
-                adapt.Fill(podaci);
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM korisnik WHERE email='" + textBox1.Text + "'", veza);
+                adapter.Fill(podaci);
                 int count = podaci.Rows.Count;
                 if (count == 0)
                 {
-                    MessageBox.Show("Neispravan e-mail");
+                    MessageBox.Show("Email ne postoji");
                 }
                 else
                 {
-                    if (podaci.Rows[0]["pass"].ToString() != textBox2.Text)
+                    /*
+                    string prvi = podaci.Rows[0]["pass"].ToString();
+                    string drugi = txtPass.Text;
+                    bool isti = prvi.Equals(drugi);
+                    bool jednaki = String.Equals(prvi, drugi);
+                    int poredak = String.Compare(prvi, drugi);
+                    */
+
+                    if (podaci.Rows[0]["pass"].ToString() == textBox2.Text)
                     {
-                        MessageBox.Show("Neispravna lozinka ");
+                        MessageBox.Show("Uspesno ste se ulogovali");
+                        this.Hide();
+                        Glavna forma = new Glavna();
+                        forma.Show();
                     }
                     else
                     {
-                        this.Hide();
-                        Glavna nova = new Glavna();
-                        nova.Show();
-
+                        MessageBox.Show("Pogresna lozinka");
                     }
                 }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Program.user = comboBox1.SelectedItem.ToString();
+            SignUp nova = new SignUp();
+            nova.ShowDialog();
         }
     }
 }

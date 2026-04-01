@@ -16,5 +16,14 @@ namespace projekat_2026_Andjela_Simic
         {
             InitializeComponent();
         }
+
+        private void Glavna_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void Glavna_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
